@@ -1,0 +1,23 @@
+{
+  "movie": {
+    "title": "Inception Updated",
+    "director": "Christopher Nolan",
+    "year": 2010,
+    "genre": "Sci-Fi",
+    "rating": 9.0,
+    "duration": 148,
+    "language": "English",
+    "description": "A thief who steals corporate secrets."
+  },
+  "review": {
+    "movieId": "",
+    "user": "Jorge Mcalister",
+    "rating": 4,
+    "comment": "Very good movie!"
+  },
+  "error":{
+  "title": "Inception",
+  "year": 1800,
+  "rating": 11
+}
+}
