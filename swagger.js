@@ -14,6 +14,10 @@ const options = {
         url: 'http://localhost:8080',
         description: 'Local server',
       },
+      {
+        url: 'https://cse341-2-0tfv.onrender.com',
+        description: 'Render server',
+      },
     ],
   },
   apis: ['./routes/*.js'],
