@@ -33,7 +33,9 @@
  *       200:
  *         description: List of all reviews
  *   post:
- *     summary: Create a new review
+ *     summary: Create a new review (requires authentication)
+ *     security:
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -45,13 +47,17 @@
  *         description: Review created successfully
  *       400:
  *         description: Validation error
+ *       401:
+ *         description: Unauthorized
  */
 
 /**
  * @swagger
  * /reviews/{id}:
  *   put:
- *     summary: Update a review
+ *     summary: Update a review (requires authentication)
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -67,10 +73,14 @@
  *     responses:
  *       200:
  *         description: Review updated successfully
+ *       401:
+ *         description: Unauthorized
  *       404:
  *         description: Review not found
  *   delete:
- *     summary: Delete a review
+ *     summary: Delete a review (requires authentication)
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -80,6 +90,8 @@
  *     responses:
  *       200:
  *         description: Review deleted successfully
+ *       401:
+ *         description: Unauthorized
  *       404:
  *         description: Review not found
  */
@@ -111,11 +123,15 @@ const {
   updateReview,
   deleteReview
 } = require('../controllers/reviewController');
+const isAuthenticated = require('../middleware/auth');
 
+// Public routes (anyone can view)
 router.get('/', getAllReviews);
 router.get('/movie/:movieId', getReviewsByMovie);
-router.post('/', createReview);
-router.put('/:id', updateReview);
-router.delete('/:id', deleteReview);
+
+// Protected routes (require authentication)
+router.post('/', isAuthenticated, createReview);
+router.put('/:id', isAuthenticated, updateReview);
+router.delete('/:id', isAuthenticated, deleteReview);
 
 module.exports = router;

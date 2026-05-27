@@ -41,7 +41,9 @@
  *       200:
  *         description: List of all movies
  *   post:
- *     summary: Create a new movie
+ *     summary: Create a new movie (requires authentication)
+ *     security:
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -53,6 +55,8 @@
  *         description: Movie created successfully
  *       400:
  *         description: Validation error
+ *       401:
+ *         description: Unauthorized
  */
 
 /**
@@ -72,7 +76,9 @@
  *       404:
  *         description: Movie not found
  *   put:
- *     summary: Update a movie
+ *     summary: Update a movie (requires authentication)
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -88,10 +94,14 @@
  *     responses:
  *       200:
  *         description: Movie updated successfully
+ *       401:
+ *         description: Unauthorized
  *       404:
  *         description: Movie not found
  *   delete:
- *     summary: Delete a movie
+ *     summary: Delete a movie (requires authentication)
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -101,6 +111,8 @@
  *     responses:
  *       200:
  *         description: Movie deleted successfully
+ *       401:
+ *         description: Unauthorized
  *       404:
  *         description: Movie not found
  */
@@ -114,11 +126,15 @@ const {
   updateMovie,
   deleteMovie
 } = require('../controllers/movieController');
+const isAuthenticated = require('../middleware/auth');
 
+// Public routes
 router.get('/', getAllMovies);
 router.get('/:id', getMovieById);
-router.post('/', createMovie);
-router.put('/:id', updateMovie);
-router.delete('/:id', deleteMovie);
+
+// Protected routes (require authentication)
+router.post('/', isAuthenticated, createMovie);
+router.put('/:id', isAuthenticated, updateMovie);
+router.delete('/:id', isAuthenticated, deleteMovie);
 
 module.exports = router;
