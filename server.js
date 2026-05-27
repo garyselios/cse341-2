@@ -16,6 +16,9 @@ const PORT = process.env.PORT || 8080;
 // Connect to MongoDB
 connectDB();
 
+// Trust proxy (needed for Render's HTTPS proxy)
+app.set('trust proxy', 1);
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -25,7 +28,11 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } // set to true if using HTTPS
+  cookie: {
+    secure: process.env.NODE_ENV === 'production', 
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 // 1 day
+  }
 }));
 
 // Passport initialization
