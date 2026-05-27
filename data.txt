@@ -1,0 +1,22 @@
+https://cse341-2-0tfv.onrender.com
+
+
+fetch('/movies', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    title: "Test Movie",
+    director: "You",
+    year: 2025,
+    genre: "Action",
+    rating: 8,
+    duration: 120,
+    language: "English",
+    description: "Testing from console"
+  })
+})
+.then(res => res.json())
+.then(data => console.log('ID:', data.id, '| Message:', data.message))
+
+
+https://cse341-2-0tfv.onrender.com/auth/logout
